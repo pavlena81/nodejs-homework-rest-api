@@ -1,6 +1,13 @@
 const express = require('express')
 const logger = require('morgan')
 const cors = require('cors')
+const mongoose = require('mongoose');
+
+const DB_Host = "mongodb+srv://Pavlena:B3SdH7G7KPhnBpVw@cluster0.ooou484.mongodb.net/db-contacts?retryWrites=true&w=majority"
+
+mongoose.connect(DB_Host)
+  .then(() => console.log("Database connect"))
+  .catch(error => console.log(error.message))
 
 const contactsRouter = require('./routes/api/contacts')
 
@@ -23,3 +30,5 @@ app.use((err, req, res, next) => {
 })
 
 module.exports = app
+
+//B3SdH7G7KPhnBpVw

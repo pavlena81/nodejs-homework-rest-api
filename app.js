@@ -5,16 +5,16 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv')
 dotenv.config();
 
-const { DB_Host } = process.env;
+const { DB_Host, PORT = 3000 } = process.env;
 
-
+mongoose.set('strictQuery', true)
 
 mongoose.connect(DB_Host)
-  .then(() => console.log("Database connect"))
-  .catch(error => {
-    console.log(error.message);
-    process.exit(1);
-  })
+  .then(() => app.listen(PORT))
+    .catch(error => {
+      console.log(error.message);
+      process.exit(1);
+    })
 
 const contactsRouter = require('./routes/api/contacts')
 

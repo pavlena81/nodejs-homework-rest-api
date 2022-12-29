@@ -23,21 +23,25 @@ const contactSchema = new Schema(
 
 const Contact = model('contact', contactSchema);
 
-// const listContacts = async () => {}
+const listContacts = async () => {
+  return Contact.find();
+ }
 
-// const getContactById = async (contactId) => {}
+const getContactById = async (id) => {
+   return Contact.findOne(id);
+ }
 
 // const removeContact = async (contactId) => {}
 
-// const addContact = async (body) => {}
+
 
 // const updateContact = async (contactId, body) => {}
 
 module.exports = {
-  Contact
-  // listContacts,
-  // getContactById,
+  Contact,
+   listContacts,
+   getContactById,
   // removeContact,
-  // addContact,
+   
   // updateContact,
 }

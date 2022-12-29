@@ -10,9 +10,9 @@ router.get('/:id', ctrl.getById);
 
 router.post('/', ctrl.add);
 
-router.delete('/:id', ctrl.delContact);
+// router.delete('/:id', ctrl.delContact);
 
-router.put('/:id', ctrl.updatesById);
+// router.put('/:id', ctrl.updatesById);
 
 // router.get('/', async (req, res, next) => {
 //   res.json({ message: 'template message' })

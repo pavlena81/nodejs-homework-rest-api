@@ -28,7 +28,7 @@ const listContacts = async () => {
  }
 
 const getContactById = async (id) => {
-   return Contact.findOne(id);
+  return Contact.findOne({ _id: id });
  }
 
 

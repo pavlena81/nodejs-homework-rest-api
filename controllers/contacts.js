@@ -18,46 +18,6 @@ const getById = async (req, res) => {
   res.json(result)
 }
 
-// const getAll = async (req, res, next) => {
-//   try {
-//     const results = await listContacts();
-//     res.json({
-//       status: 'success',
-//       code: 200,
-//       data: {
-//         contacts: results,
-//       },
-//     });
-//   } catch (e) {
-//     console.error(e);
-//     next(e);
-//   }
-// };
-
-// const getById = async (req, res, next) => {
-//   const { id } = req.params;
-//   try {
-//     const result = await getContactById(id);
-//     if (result) {
-//       res.json({
-//         status: 'success',
-//         code: 200,
-//         data: {contact: result },
-//       });
-//     } else {
-//       res.status(404).json({
-//         status: 'error',
-//         code: 404,
-//         message: `Not found task id: ${id}`,
-//         data: 'Not Found',
-//       });
-//     }
-//   } catch (e) {
-//     console.error(e);
-//     next(e);
-//   }
-// };
-
 const add = async (req, res) => {
   const {name, email, phone, favorite } = req.body; 
     const newContact = await Contact.create(req.body);
@@ -65,6 +25,7 @@ const add = async (req, res) => {
     name: newContact.name,
     email: newContact.email,
     phone: newContact.phone,
+    favorite: newContact.favorite,
     })
 }
 
@@ -72,12 +33,7 @@ const updateContact = async (req, res) => {
   const { id } = req.params;
   const result = await Contact.findByIdAndUpdate(id, req.body, { new: true });
   if (!result) {
-    res.status(404).json({
-      status: 'error',
-      code: 404,
-      message: `Not found contact id: ${id}`,
-      data: 'Not Found',
-    })
+    throw HttpError(404)
   }
     res.json(result)
 }
@@ -86,12 +42,7 @@ const removeById = async (req, res) => {
   const { id } = req.params;
   const result = await Contact.findByIdAndRemove(id);
   if (!result) {
-    res.status(404).json({
-      status: 'error',
-      code: 404,
-      message: `Not found contact id: ${id}`,
-      data: 'Not Found',
-    })
+     throw HttpError(404)
   }
   res.json({
     message: 'Delete success'
@@ -99,9 +50,9 @@ const removeById = async (req, res) => {
 }
 
 module.exports = {
-    getAll,
+    getAll: ctrlWrapper(getAll),
     getById: ctrlWrapper(getById),
-    add,
-    updateContact,
-    removeById,    
+    add: ctrlWrapper(add),
+    updateContact: ctrlWrapper(updateContact),
+    removeById: ctrlWrapper(removeById),    
 }

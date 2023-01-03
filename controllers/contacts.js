@@ -66,10 +66,40 @@ const add = async (req, res) => {
     })
 }
 
+const updateContact = async (req, res) => {
+  const { id } = req.params;
+  const result = await Contact.findByIdAndUpdate(id, req.body, { new: true });
+  if (!result) {
+    res.status(404).json({
+      status: 'error',
+      code: 404,
+      message: `Not found contact id: ${id}`,
+      data: 'Not Found',
+    })
+  }
+    res.json(result)
+}
+
+const removeById = async (req, res) => {
+  const { id } = req.params;
+  const result = await Contact.findByIdAndRemove(id);
+  if (!result) {
+    res.status(404).json({
+      status: 'error',
+      code: 404,
+      message: `Not found contact id: ${id}`,
+      data: 'Not Found',
+    })
+  }
+  res.json({
+    message: 'Delete success'
+  })
+}
+
 module.exports = {
     getAll,
     getById,
     add,
-    // getAll:ctrlWrapper(getAll),
-    // getById:ctrlWrapper(getById),
+    updateContact,
+    removeById,    
 }

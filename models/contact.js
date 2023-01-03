@@ -31,17 +31,9 @@ const getContactById = async (id) => {
    return Contact.findOne(id);
  }
 
-// const removeContact = async (contactId) => {}
-
-
-
-// const updateContact = async (contactId, body) => {}
 
 module.exports = {
   Contact,
    listContacts,
-   getContactById,
-  // removeContact,
-   
-  // updateContact,
+   getContactById,  
 }

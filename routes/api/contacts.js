@@ -10,28 +10,9 @@ router.get('/:id', ctrl.getById);
 
 router.post('/', ctrl.add);
 
-// router.delete('/:id', ctrl.delContact);
+router.delete('/:id', ctrl.removeById);
 
-// router.put('/:id', ctrl.updatesById);
+router.put('/:id', ctrl.updateContact);
 
-// router.get('/', async (req, res, next) => {
-//   res.json({ message: 'template message' })
-// })
 
-// router.get('/:contactId', async (req, res, next) => {
-//   res.json({ message: 'template message' })
-// })
-
-// router.post('/', async (req, res, next) => {
-//   res.json({ message: 'template message' })
-// })
-
-// router.delete('/:contactId', async (req, res, next) => {
-//   res.json({ message: 'template message' })
-// })
-
-// router.put('/:contactId', async (req, res, next) => {
-//   res.json({ message: 'template message' })
-// })
-
-module.exports = router
+module.exports = router;

@@ -13,9 +13,11 @@ const contactSchema = new Schema(
     },
     email: {
       type: String,
+      required: true,
     },
     phone: {
       type: String,
+      required: true,
     },
     favorite: {
       type: Boolean,
@@ -40,11 +42,16 @@ const addSchema = Joi.object({
 
     phone: Joi.string().regex(/^[0-9]{10}$/).messages({ 'string.pattern.base': `Phone number must have 10 digits.` }).required(),
     
+    
+})
+
+const updateFavoriteSchema = Joi.object({
     favorite: Joi.boolean(),
 })
 
 const schemas = {
     addSchema,
+    updateFavoriteSchema,
 }
 
 const Contact = model('contact', contactSchema);

@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+
 const Joi = require('joi');
 
 const { handleMongooseError } = require('../helpers');
@@ -35,8 +36,16 @@ const userSchema = new Schema({
 userSchema.post('save', handleMongooseError)
 
 const registerSchema = Joi.object({
-    name: Joi.string().required(),
-    email: Joi.string().pattern(emailRegexp).required(),
+    name: Joi.string()
+        .alphanum()
+        .min(3)
+        .max(30)
+        .required(),
+  
+    email: Joi.string().email({
+        minDomainSegments: 2,
+        tlds: { allow: ['com', 'net'] }
+    }),
     password: Joi.string().min(6).required(),
 })
 

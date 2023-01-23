@@ -2,17 +2,10 @@ const express = require('express');
 
 const logger = require('morgan');
 const cors = require('cors');
-//const fs = require('fs/promises');
-
-//const multer = require('multer');
-//const path = require('path');
-
 const dotenv = require('dotenv')
 dotenv.config();
 
 const app = express();
-
-
 
 const authRouter = require('./routes/api/auth')
 const contactsRouter = require('./routes/api/contacts')
@@ -30,10 +23,6 @@ app.use(express.static("public"))
 app.use('/api/auth', authRouter)
 app.use('/api/contacts', contactsRouter)
 app.use('/api/users', usersRouter)
-
-app.get("/api/auth", (req, res) => {
-  res.json(users);
-})  
 
 // upload.fields([{name: "avatar", maxCount: 1}])
 // upload.array("avatar", 8)

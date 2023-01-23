@@ -1,13 +1,13 @@
-const express = require('express');
+const express = require("express");
 
-const { ctrl } = require('../../controllers/users');
+const { updateAvatar } = require('../../controllers/users');
 
 const { authenticate, upload } = require('../../middlewares');
 
 //const { upload } = require('../../middlewares/upload');
 
-const router = express.Router()
+const router = express.Router();
 
-router.patch('/avatars', authenticate,   upload.single('avatar'), ctrl.updateAvatar);
+router.patch('/avatars', authenticate,   upload.single("avatar"), updateAvatar);
 
 module.exports = router;

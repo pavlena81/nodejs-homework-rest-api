@@ -18,4 +18,5 @@ router.get("/logout", authenticate, ctrl.logout);
 
 router.patch("/subscription", authenticate, validateBody(schemas.updateSubscriptionSchema), ctrl.updateSubscription);
 
+
 module.exports = router;

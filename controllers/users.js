@@ -1,5 +1,6 @@
 const Jimp = require("jimp");
 const { User } = require('../models/user');
+const { ctrlWrapper } = require('../helpers');
 
 const path = require('path');
 const fs = require('fs/promises');
@@ -31,18 +32,15 @@ const updateAvatar = async (req, res, next) => {
   console.log(resultUpload);
   const avatarURL = path.join('avatars', newImgName);
   
-  try {    
-    await User.findByIdAndUpdate( _id, { avatarURL });
+  await User.findByIdAndUpdate( _id, { avatarURL });  
+  
+  
+  await fs.unlink(tempUpload);
    
-   }
-  catch (err) {
-     await fs.unlink(tempUpload);
-    next(err);
-  }
  res.json({ message: 'Файл успешно загружен', avatarURL }); 
   
 };
 
 module.exports = {
-  updateAvatar
+  updateAvatar: ctrlWrapper(updateAvatar),
 };

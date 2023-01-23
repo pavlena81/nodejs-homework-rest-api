@@ -2,7 +2,6 @@ const express = require('express');
 
 const { ctrl } = require('../../controllers/users');
 
-
 const { authenticate, upload } = require('../../middlewares');
 
 //const { upload } = require('../../middlewares/upload');

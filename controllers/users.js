@@ -1,13 +1,14 @@
 const Jimp = require("jimp");
 const { User } = require('../models/user');
+
 const path = require('path');
 const fs = require('fs/promises');
 
 const avatarsDir = path.join(__dirname, "../../", "public", "avatars");
 
 const updateAvatar = async (req, res, next) => {
-  //   const { description } = req.body;
-  // console.log(req.body);
+  const { description } = req.body;
+  console.log(req.body);
   const { _id } = req.user;
   const { path: tempUpload, originalname } = req.file;
   console.log(req.file);
@@ -42,4 +43,6 @@ const updateAvatar = async (req, res, next) => {
   
 };
 
-module.exports = updateAvatar;
+module.exports = {
+  updateAvatar
+};

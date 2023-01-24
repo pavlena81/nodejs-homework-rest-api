@@ -5,14 +5,12 @@ const { ctrlWrapper } = require('../helpers');
 const path = require('path');
 const fs = require('fs/promises');
 
-const avatarsDir = path.join(__dirname, "../../", "public", "avatars");
+const avatarsDir = path.join(__dirname, "../", "public", "avatars");
 
-const updateAvatar = async (req, res, next) => {
-  const { description } = req.body;
-  console.log(req.body);
+const updateAvatar = async (req, res, next) => {  
   const { _id } = req.user;
   const { path: tempUpload, originalname } = req.file;
-  console.log(tempUpload);
+  
   const avatar = await Jimp.read(tempUpload);
 
    avatar.resize(250, 250)
@@ -22,7 +20,7 @@ const updateAvatar = async (req, res, next) => {
   try {
   
   const resultUpload = path.join(avatarsDir, newImgName);
-  console.log(resultUpload);
+   
   await fs.rename(tempUpload, resultUpload);
   
   
@@ -32,8 +30,7 @@ const updateAvatar = async (req, res, next) => {
     
   res.json({avatarURL}); 
     
-  } catch { 
-    //await fs.unlink(tempUpload);
+  } catch {     
     next(500);
   }
      

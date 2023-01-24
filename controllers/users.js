@@ -12,33 +12,32 @@ const updateAvatar = async (req, res, next) => {
   console.log(req.body);
   const { _id } = req.user;
   const { path: tempUpload, originalname } = req.file;
-  console.log(req.file);
-  Jimp.read(tempUpload)
-  .then(avatar => {
-    return avatar
-      .resize(256, 256) // resize
-      .quality(60) // set JPEG quality
-      .greyscale() // set greyscale
-      .write(tempUpload); // save
-  })
-  .catch(err => {
-    next (409, err);
-  });
-  
-  const newImgName = `${_id}_${originalname}`
-  const resultUpload = path.join(avatarsDir, newImgName);
-  await fs.rename(tempUpload, resultUpload);
   console.log(tempUpload);
+  const avatar = await Jimp.read(tempUpload);
+
+   avatar.resize(250, 250)
+      .quality(60) 
+      .write(tempUpload); 
+  const newImgName = `${_id}_${originalname}`;
+  try {
+  
+  const resultUpload = path.join(avatarsDir, newImgName);
   console.log(resultUpload);
-  const avatarURL = path.join('avatars', newImgName);
-  
-  await User.findByIdAndUpdate( _id, { avatarURL });  
+  await fs.rename(tempUpload, resultUpload);
   
   
-  await fs.unlink(tempUpload);
-   
- res.json({ message: 'Файл успешно загружен', avatarURL }); 
+  const avatarURL = path.join('avatars', newImgName);  
   
+  await User.findByIdAndUpdate(_id, {avatarURL});  
+    
+  res.json({avatarURL}); 
+    
+  } catch { 
+    //await fs.unlink(tempUpload);
+    next(500);
+  }
+     
+ 
 };
 
 module.exports = {

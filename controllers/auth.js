@@ -10,7 +10,7 @@ const { HttpError, ctrlWrapper } = require('../helpers');
 
 const { SECRET_KEY } = process.env;
 
-const gravatar = require('gravatar');
+const gravatar = require('gravatar');``
 
 const register = async (req, res) => {
 

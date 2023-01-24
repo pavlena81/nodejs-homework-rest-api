@@ -1,14 +1,16 @@
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcryptjs');
 
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
 
-require("dotenv").config()
+require("dotenv").config();
 
-const { User } = require('../models/user')
+const { User } = require('../models/user');
 
-const { HttpError, ctrlWrapper } = require('../helpers')
+const { HttpError, ctrlWrapper } = require('../helpers');
 
 const { SECRET_KEY } = process.env;
+
+const gravatar = require('gravatar');``
 
 const register = async (req, res) => {
 
@@ -20,7 +22,9 @@ const register = async (req, res) => {
 
     const hashPassword = await bcrypt.hash(password, 10);
 
-    const newUser = await User.create({...req.body, password: hashPassword});
+    const avatarURL = gravatar.url(email);
+
+    const newUser = await User.create({...req.body, password: hashPassword, avatarURL});
 
     res.status(201).json({
         name: newUser.name,

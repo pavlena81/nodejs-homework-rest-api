@@ -1,9 +1,13 @@
 const express = require('express');
-
+const sgMail = require('@sendgrid/mail');
 const logger = require('morgan');
 const cors = require('cors');
 const dotenv = require('dotenv')
 dotenv.config();
+
+const { SENDGRID_API_KEY } = process.env;
+
+sgMail.setApiKey(SENDGRID_API_KEY);
 
 const app = express();
 
@@ -24,25 +28,22 @@ app.use('/api/auth', authRouter)
 app.use('/api/contacts', contactsRouter)
 app.use('/api/users', usersRouter)
 
-// upload.fields([{name: "avatar", maxCount: 1}])
-// upload.array("avatar", 8)
+//////////////////////////////////////////////////
+const email = {
+  to: 'manero5316@minterp.com',
+  from: 'pavlena@ukr.net', 
+  subject: 'and easy to do anywhere, even with Node.js',
+  html: '<strong>verify email</strong>',
+};
 
+sgMail.send(email)
+  .then(() => {console.log("email send success")}, error => {
+    console.error(error);
 
-// app.post('/upload', upload.single('avatar'), async (req, res, next) => {
-//   // const { description } = req.body;
-//   // console.log(req.body);
-//   // const { path: tempUpload, filename } = req.file;
-//   // console.log(req.file);
-//   // const resultUpload = path.join(avatarsDir, filename);
-  
-//   // try {
-//   //   await fs.rename(tempUpload, resultUpload);
-//   // } catch (err) {
-//   //   await fs.unlink(tempUpload);
-//   //   return next(err);
-//   // }
-//   // res.json({ description, message: 'Файл успешно загружен', status: 200 });
-// });
+    if (error.response) {
+      console.error(error.response.body)
+    }
+  });
 
 // ///////////////////////////////////////////////
 app.use((req, res) => {

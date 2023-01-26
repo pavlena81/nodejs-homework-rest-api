@@ -29,21 +29,21 @@ app.use('/api/contacts', contactsRouter)
 app.use('/api/users', usersRouter)
 
 //////////////////////////////////////////////////
-const email = {
-  to: 'manero5316@minterp.com',
-  from: 'pavlena@ukr.net', 
-  subject: 'and easy to do anywhere, even with Node.js',
-  html: '<strong>verify email</strong>',
-};
+// const email = {
+//   to: 'manero5316@minterp.com',
+//   from: 'pavlena@ukr.net', 
+//   subject: 'and easy to do anywhere, even with Node.js',
+//   html: '<strong>verify email</strong>',
+// };
 
-sgMail.send(email)
-  .then(() => {console.log("email send success")}, error => {
-    console.error(error);
+// sgMail.send(email)
+//   .then(() => {console.log("email send success")}, error => {
+//     console.error(error);
 
-    if (error.response) {
-      console.error(error.response.body)
-    }
-  });
+//     if (error.response) {
+//       console.error(error.response.body)
+//     }
+//   });
 
 // ///////////////////////////////////////////////
 app.use((req, res) => {

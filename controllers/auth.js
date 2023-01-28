@@ -35,7 +35,7 @@ const register = async (req, res) => {
     const verifyEmail = {
         to: email,
         subject: 'Verify email',
-        html: `<a target="_blanck" href="${BASE_URL}/api/auth/verify/${verificationToken}">Cleack verify email<a/>`
+        html: `<a target="_blanck" href="${BASE_URL}/api/auth/verify/${verificationToken}">Click verify email<a/>`
     }
     
     await sendMail(verifyEmail);    
@@ -44,6 +44,7 @@ const register = async (req, res) => {
     res.status(201).json({
         name: newUser.name,
         email: newUser.email,
+        message: 'Verification email send'
     })
 }
 
@@ -51,13 +52,13 @@ const verify = async(req, res)=> {
     const {verificationToken} = req.params;
     const user = await User.findOne({verificationToken});
     if(!user) {
-        throw HttpError(404)
+        throw HttpError(404, 'user Not Found')
     }
 
     await User.findByIdAndUpdate(user._id, { verify: true, verificationToken: ""});
 
     res.json({
-        message: "Verify success"
+        message: 'Verification successful'
     })
 }
 
@@ -66,6 +67,10 @@ const login = async (req, res) => {
     const user = await User.findOne({ email });
     if (!user) {
         throw HttpError(401, 'Email or password is wrong');
+    }
+
+    if (!user.verify) {
+        throw HttpError(401, 'Your Email has not been verified. Please click on verify email');
     }
 
     const passwordCompare = await bcrypt.compare(password, user.password);

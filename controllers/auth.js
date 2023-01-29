@@ -48,18 +48,46 @@ const register = async (req, res) => {
     })
 }
 
-const verify = async(req, res)=> {
-    const {verificationToken} = req.params;
-    const user = await User.findOne({verificationToken});
+const verified = async (req, res) => {    
+    const { verificationToken } = req.params;    
+    
+    const user = await User.findOne({ verificationToken });    
+    
     if(!user) {
-        throw HttpError(404, 'user Not Found')
+        res.status(404).json({ message: 'User Not Found' })
     }
-
-    await User.findByIdAndUpdate(user._id, { verify: true, verificationToken: ""});
-
+    console.log(user);
+         await User.findByIdAndUpdate(user._id, { verify: true, verificationToken: " "});
+    console.log(User);
+    
+   
     res.json({
         message: 'Verification successful'
     })
+}
+
+const resendEmailVerify = async (req, res) => {
+    const { email } = req.body;
+    
+    const user = await User.findOne({ email });
+
+    if (!user) {
+        res.status(400).json({"message": "missing required field email or check email"})
+    }
+   
+    if (user.verify) {
+        res.status(400).json({"message": "Verification has already been passed"}) 
+    }
+
+     const verifyEmail = {
+        to: email,
+        subject: 'Verify email',
+        html: `<a target="_blanck" href="${BASE_URL}/api/auth/verify/${verificationToken}">Click verify email<a/>`
+    }
+    
+    await sendMail(verifyEmail);   
+
+    res.status(201).json({message: 'Verification email resend'})
 }
 
 const login = async (req, res) => {
@@ -123,7 +151,8 @@ const updateSubscription = async (req, res) => {
 
 module.exports = {
     register: ctrlWrapper(register),
-    verify: ctrlWrapper(verify),
+    verified: ctrlWrapper(verified),
+    resendEmailVerify: ctrlWrapper(resendEmailVerify),
     login: ctrlWrapper(login),
     getCurrent: ctrlWrapper(getCurrent),
     logout: ctrlWrapper(logout),

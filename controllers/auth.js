@@ -51,19 +51,23 @@ const register = async (req, res) => {
 const verified = async (req, res) => {    
     const { verificationToken } = req.params;    
     
-    const user = await User.findOne({ verificationToken });    
+    const user = await User.findOne({verificationToken});    
     
     if(!user) {
-        res.status(404).json({ message: 'User Not Found' })
+        res.status(404).json({ message: 'the verify link is no longer valid' })
     }
-    console.log(user);
+
+    else {
+        
          await User.findByIdAndUpdate(user._id, { verify: true, verificationToken: " "});
-    console.log(User);
     
-   
-    res.json({
+        res.json({
         message: 'Verification successful'
     })
+    
+    } 
+   
+    
 }
 
 const resendEmailVerify = async (req, res) => {

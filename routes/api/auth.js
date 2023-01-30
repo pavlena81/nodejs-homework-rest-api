@@ -18,5 +18,8 @@ router.get("/logout", authenticate, ctrl.logout);
 
 router.patch("/subscription", authenticate, validateBody(schemas.updateSubscriptionSchema), ctrl.updateSubscription);
 
+router.get("/verify/:verificationToken",  ctrl.verified);
+
+router.post("/verify", ctrl.resendEmailVerify);
 
 module.exports = router;
